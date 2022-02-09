@@ -172,8 +172,10 @@ void AFPS_UnrealProjectCharacter::OnInteraction() {
 			rune->Swap(GetActorLocation());
 			
 			SetActorLocation(posToSwap);
-			/*FRotator test = FRotator(0.0f, 0.0f, -180.0f);
-			SetActorRotation(GetActorRotation() - test);*/
+			//FRotator test = FRotator(0.0f, 0.0f, -180.0f);
+			//SetActorRotation(GetActorRotation() + test);
+			//GetActorRotation().Quaternion().
+			//AddActorLocalRotation(FRotator(0.0f, 0.0f, 180.0f));
 		}
 	}
 }
