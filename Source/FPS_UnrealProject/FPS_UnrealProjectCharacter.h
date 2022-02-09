@@ -86,6 +86,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 	uint8 bUsingMotionControllers : 1;
 
+	UPROPERTY()
+		FVector posToSwap;
+
 protected:
 	
 	/** Fires a projectile. */
@@ -99,6 +102,9 @@ protected:
 
 	/** Handles stafing movement, left and right */
 	void MoveRight(float Val);
+
+	UFUNCTION()
+	void OnInteraction();
 
 	/**
 	 * Called via input to turn at a given rate.

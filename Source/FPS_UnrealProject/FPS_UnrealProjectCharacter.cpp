@@ -11,6 +11,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "MotionControllerComponent.h"
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
+#include "DrawDebugHelpers.h"
+#include "RuneTest.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -117,6 +119,9 @@ void AFPS_UnrealProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AFPS_UnrealProjectCharacter::OnInteraction);
+	//PlayerInputComponent->BindAction("Interact", IE_Released, this, &ASteupleCharacter::OnStopGrab);
+
 	// Bind fire event
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPS_UnrealProjectCharacter::OnFire);
 
@@ -136,6 +141,43 @@ void AFPS_UnrealProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAxis("TurnRate", this, &AFPS_UnrealProjectCharacter::TurnAtRate);
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AFPS_UnrealProjectCharacter::LookUpAtRate);
+}
+
+void AFPS_UnrealProjectCharacter::OnInteraction() {
+
+	FVector start = GetActorLocation();
+	FVector Forward = FirstPersonCameraComponent->GetForwardVector();
+	start = FVector((start.X) + Forward.X * 100, (start.Y) + Forward.Y * 100, (start.Z + 30) + Forward.Z * 100);
+
+	FVector end = start + Forward * 1000;
+
+	FHitResult hit;
+
+	if (GetWorld())
+	{
+		bool actorHit = GetWorld()->LineTraceSingleByChannel(hit, start, end, ECC_Pawn, FCollisionQueryParams(), FCollisionResponseParams());
+		DrawDebugLine(GetWorld(), start, end, FColor::Red, false, 2.f, 0.f, 10.f);
+
+		ARuneTest* rune = Cast<ARuneTest>(hit.GetActor());
+		if (rune == nullptr)
+		{
+			return;
+		}
+
+		if (actorHit && hit.GetActor())
+		{
+			GLog->Log(hit.GetActor()->GetName());
+			posToSwap = rune->GetActorLocation();
+
+			rune->Swap(GetActorLocation());
+			
+			SetActorLocation(posToSwap);
+			//FRotator test = FRotator(0.0f, 0.0f, -180.0f);
+			//SetActorRotation(GetActorRotation() + test);
+			//GetActorRotation().Quaternion().
+			//AddActorLocalRotation(FRotator(0.0f, 0.0f, 180.0f));
+		}
+	}
 }
 
 void AFPS_UnrealProjectCharacter::OnFire()
