@@ -39,5 +39,6 @@ void ARuneTest::Swap(FVector posToSwap) {
 	SetActorLocation(posToSwap);
 
 	currentPos = posToSwap;
+	//testeygdbsjfbjkdfnsk
 
 }
