@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Engine/TriggerBox.h"
 #include "RuneTest.generated.h"
 
 UCLASS()
@@ -23,15 +24,21 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void Swap(FVector posToSwap);
 
 	UPROPERTY()
 	FVector currentPos;
 
+	UPROPERTY(EditAnywhere)
+	UStaticMeshComponent* ChildMesh;
+
 protected:
 
 
-	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
+	UPROPERTY(EditAnywhere)
 	UStaticMeshComponent* meshComponent;
+
+	UPROPERTY()
+	ATriggerBox* triggerbox;
 };

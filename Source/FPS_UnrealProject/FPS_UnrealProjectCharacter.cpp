@@ -119,8 +119,7 @@ void AFPS_UnrealProjectCharacter::SetupPlayerInputComponent(class UInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AFPS_UnrealProjectCharacter::OnInteraction);
-	//PlayerInputComponent->BindAction("Interact", IE_Released, this, &ASteupleCharacter::OnStopGrab);
+	//PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &AFPS_UnrealProjectCharacter::OnInteraction);
 
 	// Bind fire event
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFPS_UnrealProjectCharacter::OnFire);
@@ -176,6 +175,7 @@ void AFPS_UnrealProjectCharacter::OnInteraction() {
 			//SetActorRotation(GetActorRotation() + test);
 			//GetActorRotation().Quaternion().
 			//AddActorLocalRotation(FRotator(0.0f, 0.0f, 180.0f));
+
 		}
 	}
 }
